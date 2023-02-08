@@ -24,13 +24,13 @@ const fetchIssues = (page) => {
       });
     });
 };
-
+	
 loadNext.addEventListener('click', () => {
   currentPage += 1;
   fetchIssues(currentPage);
   pageNumber.innerText = `Page number ${currentPage}`;
 });
-
+	
 loadPrev.addEventListener('click', () => {
   if (currentPage > 1) {
     currentPage -= 1;
@@ -38,6 +38,13 @@ loadPrev.addEventListener('click', () => {
     pageNumber.innerText = `Page number ${currentPage}`;
   }
 });
+	const assert = require('assert');
+
+const message = 'Hello, world!';
+
+assert.notDeepEqual(message, 'Hello, World!');
+
+console.log('No errors');
 
 // Load the first page of issues on page load
 fetchIssues(currentPage);
