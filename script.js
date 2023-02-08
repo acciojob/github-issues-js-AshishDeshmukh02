@@ -38,13 +38,6 @@ loadPrev.addEventListener('click', () => {
     pageNumber.innerText = `Page number ${currentPage}`;
   }
 });
-	const assert = require('assert');
-
-const message = 'Hello, world!';
-
-assert.notDeepEqual(message, 'Hello, World!');
-
-console.log('No errors');
-
+	
 // Load the first page of issues on page load
 fetchIssues(currentPage);
