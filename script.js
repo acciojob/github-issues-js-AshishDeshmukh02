@@ -1,43 +1,50 @@
 //your code here
-const app = document.getElementById('app');
-const issuesList = document.getElementById('issues_list');
-const pageNumber = document.getElementById('page_number');
-const loadPrev = document.getElementById('load_prev');
-const loadNext = document.getElementById('load_next');
+let ol = document.getElementById('oll');
 
-let currentPage = 1;
+fetch("https://api.github.com/repositories/1296269/issues?page=${1}&per_page=5.")
+    .then((response) => response.json())
+    .then((product) => {
+        document.getElementById('page_number').innerHTML = `Page Number 1`;
+        for (let i = 0; i < 5; i++) {
+            const element = product[i];
+            console.log(product[i].title);
+            ol.innerHTML += `<li>${product[i].title}</li>`
+        }
+    })
 
-const fetchIssues = (page) => {
-  return fetch(`https://api.github.com/repositories/1296269/issues?page=${page}&per_page=5`)
-    .then(response => response.json())
-    .then(data => {
-      // Clear the current issues list
-      while (issuesList.firstChild) {
-        issuesList.removeChild(issuesList.firstChild);
-      }
+let i = 1;
 
-      // Display the new issues
-      data.forEach(issue => {
-        const listItem = document.createElement('li');
-        listItem.innerText = issue.title;
-        issuesList.appendChild(listItem);
-      });
-    });
-};
-	
-loadNext.addEventListener('click', () => {
-  currentPage += 1;
-  fetchIssues(currentPage);
-  pageNumber.innerText = `Page number ${currentPage}`;
-});
-	
-loadPrev.addEventListener('click', () => {
-  if (currentPage > 1) {
-    currentPage -= 1;
-    fetchIssues(currentPage);
-    pageNumber.innerText = `Page number ${currentPage}`;
-  }
-});
-	
-// Load the first page of issues on page load
-fetchIssues(currentPage);
+let next = document.getElementById('load_next');
+let prev = document.getElementById('load_prev');
+
+next.addEventListener('click', () => {
+    i = i + 1;
+    fetch(`https://api.github.com/repositories/1296269/issues?page=${i}&per_page=5.`)
+        .then((response) => response.json())
+        .then((product) => {
+            document.getElementById('page_number').innerHTML = `Page Number ${i}`;
+            ol.innerHTML = '';
+            for (let z = 0; z < 5; z++) {
+                const element = product[z];
+                console.log(product[z].title);
+                ol.innerHTML += `<li>${product[z].title}</li>`
+            }
+        })
+})
+
+prev.addEventListener('click', () => {
+    if (i === 1) i = 1;
+    else i = i - 1;
+    fetch(`https://api.github.com/repositories/1296269/issues?page=${i}&per_page=5.`)
+        .then((response) => response.json())
+        .then((product) => {
+            document.getElementById('page_number').innerHTML = `Page Number ${i}`;
+            ol.innerHTML = '';
+            for (let z = 0; z < 5; z++) {
+                const element = product[z];
+                console.log(product[z].title);
+                ol.innerHTML += `<li>${product[z].title}</li>`
+                console.log(ol.innerHTML);
+            }
+        })
+})
